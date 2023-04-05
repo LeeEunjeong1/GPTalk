@@ -1,14 +1,9 @@
 <resources>
-    <string name="app_name">ImageSearch</string>
+    <string name="app_name">GPTalk</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="first_fragment_label">GPTalk</string>
+    <string name="second_fragment_label">Setting</string>
 
-    <string name="str_image">image</string>
-    <string name="btn_cancel">취소</string>
     <string name="todo">TODO</string>
-    <string name="edit_search_hint">이미지를 검색해 보세요</string>
-    <string name="txt_center_first">이미지를 클릭하여 저장해 보세요!</string>
-    <string name="txt_center_second">저장된 이미지를 한 눈에 보세요!</string>
 </resources>
