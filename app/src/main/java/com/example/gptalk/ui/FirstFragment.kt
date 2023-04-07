@@ -1,13 +1,13 @@
 package com.example.gptalk.ui
 
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.domain.utils.Util
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gptalk.databinding.FragmentFirstBinding
+import com.example.gptalk.model.Chatting
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -26,39 +26,70 @@ class FirstFragment : Fragment() {
     ): View {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
-//        viewModel.init()
         initLayout()
         initListener()
+        initObserve()
         return binding.root
     }
 
-    fun initLayout(){
+    fun initLayout() {
         with(binding) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                root.setOnApplyWindowInsetsListener { _, windowInsets ->
+                    val imeHeight = windowInsets.getInsets(WindowInsets.Type.ime()).bottom
+                    binding.root.setPadding(0, 0, 0, imeHeight)
+                    val insets =
+                        windowInsets.getInsets(WindowInsets.Type.ime() or WindowInsets.Type.systemGestures())
+                    insets
+                    windowInsets
+                }
+            } else {
+                requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+            }
+
             recyclerMessages.adapter = adapter
+
+            val layoutManager = LinearLayoutManager(context)
+            layoutManager.stackFromEnd = true
+            recyclerMessages.layoutManager = layoutManager
         }
 
     }
 
-    fun initListener(){
-        with(viewModel){
-            chatList.observe(viewLifecycleOwner){
-                Util.logMessage("it :: $it")
-                adapter.setChats(it)
+    fun initListener() {
+        with(binding) {
+            btnSubmit.setOnClickListener {
+                loadSubmit()
             }
         }
-        binding.btnSubmit.setOnClickListener{
-            Util.logMessage("ititit :: ${binding.edtMessage.text}")
+    }
+
+    fun initObserve() {
+        with(viewModel) {
+            chatList.observe(viewLifecycleOwner) {
+                adapter.setChats(it)
+                binding.recyclerMessages.scrollToPosition(adapter.itemCount - 1)
+            }
         }
+    }
+
+    // 질문 제출
+    private fun loadSubmit() {
+        viewModel.setChatting(
+            Chatting("Q", binding.edtMessage.text.toString())
+        )
+        viewModel.submit(binding.edtMessage.text.toString())
+        // TODO 로딩바
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 
 }

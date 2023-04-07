@@ -1,13 +1,16 @@
 package com.example.gptalk.ui
 
+import android.annotation.SuppressLint
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gptalk.databinding.ItemChatBinding
+import com.example.gptalk.model.Chatting
 
 class ChatListAdapter :
     RecyclerView.Adapter<ChatListAdapter.ProductViewHolder>() {
-    private var chatList: MutableList<String> = mutableListOf()
+    private var chatList: MutableList<Chatting> = mutableListOf()
 
     inner class ProductViewHolder(val binding: ItemChatBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -26,18 +29,24 @@ class ChatListAdapter :
         return chatList.size
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val current = chatList[position]
 
         with(holder) {
             with(binding) {
-                txtChat.text = current
+                txtChat.text = current.text
+                if(current.mode=="Q"){ // 질문
+                    txtChat.gravity = Gravity.START
+                }else{ // 답변
+                    txtChat.gravity = Gravity.END
+                }
             }
         }
     }
 
-    fun setChats(chat: List<String>) {
-        //unFilteredList = products
+    fun setChats(chat: List<Chatting>) {
+        clearChats()
         chatList.addAll(chat)
         notifyDataSetChanged()
     }

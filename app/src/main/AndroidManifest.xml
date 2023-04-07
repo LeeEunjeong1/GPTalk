@@ -10,12 +10,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ImageSearch"
+        android:theme="@style/Theme.GPTalk"
         tools:targetApi="31">
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.ImageSearch">
+            android:theme="@style/Theme.GPTalk">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
