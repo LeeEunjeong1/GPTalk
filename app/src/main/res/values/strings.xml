@@ -6,4 +6,10 @@
     <string name="second_fragment_label">Setting</string>
 
     <string name="todo">TODO</string>
+    <string name="temperature">Temperature</string>
+    <string name="frequency_panalty">Frequency Panalty</string>
+    <string name="chat_reset">Chat Reset</string>
+    <string name="share">Share</string>
+    <string name="hint_message">메시지 입력</string>
+    <string name="send">전송</string>
 </resources>

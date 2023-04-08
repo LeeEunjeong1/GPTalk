@@ -3,6 +3,7 @@ package com.example.gptalk.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.data.utils.PrefUtil
 import com.example.domain.model.GetAnswerRequest
 import com.example.domain.usecase.RequestGetAnswerUseCase
 import com.example.domain.utils.ErrorType
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FirstViewModel @Inject constructor(
-    private val requestGetAnswerUseCase: RequestGetAnswerUseCase
+    private val requestGetAnswerUseCase: RequestGetAnswerUseCase,
+    private val prefUtil: PrefUtil
 ) : ViewModel(), RemoteErrorEmitter {
     var chatList = MutableLiveData<ArrayList<Chatting>>()
 
@@ -33,8 +35,8 @@ class FirstViewModel @Inject constructor(
             val response = requestGetAnswerUseCase.excute(this@FirstViewModel,
             GetAnswerRequest(
                 text,
-                1.0,
-                1.0
+                prefUtil.getString("TEMPERATURE").toDouble(),
+                prefUtil.getString("FREQUENCY_PANALTY").toDouble()
             )
                 )
 
@@ -45,6 +47,7 @@ class FirstViewModel @Inject constructor(
         }
     }
 
+    // 채팅 화면 연결
     fun setChatting(chatting:Chatting){
         val temp = arrayListOf<Chatting>().apply {
             chatList.value?.let { data -> addAll(data) }

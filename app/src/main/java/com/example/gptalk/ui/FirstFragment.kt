@@ -1,8 +1,11 @@
 package com.example.gptalk.ui
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +37,7 @@ class FirstFragment : Fragment() {
 
     fun initLayout() {
         with(binding) {
+            // 키패드
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 root.setOnApplyWindowInsetsListener { _, windowInsets ->
                     val imeHeight = windowInsets.getInsets(WindowInsets.Type.ime()).bottom
@@ -61,11 +65,22 @@ class FirstFragment : Fragment() {
             btnSubmit.setOnClickListener {
                 loadSubmit()
             }
+            edtMessage.setOnEditorActionListener{ textView, action, event ->
+                var handled = false
+                if (action == EditorInfo.IME_ACTION_DONE) {
+                    // 키보드 내리기
+                    val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(edtMessage.windowToken, 0)
+                    handled = true
+                }
+                handled
+            }
         }
     }
 
     fun initObserve() {
         with(viewModel) {
+            // 채팅 화면 연결
             chatList.observe(viewLifecycleOwner) {
                 adapter.setChats(it)
                 binding.recyclerMessages.scrollToPosition(adapter.itemCount - 1)
