@@ -37,7 +37,7 @@ class SecondFragment : Fragment() {
         with(binding){
             val prefUtil = PrefUtil(requireContext())
             editTemperature.setText(prefUtil.getString("TEMPERATURE"))
-            editFrequency.setText(prefUtil.getString("FREQUENCY_PANALTY"))
+            editFrequency.setText(prefUtil.getString("FREQUENCY_PENALTY"))
             editTemperature.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 }
@@ -55,7 +55,7 @@ class SecondFragment : Fragment() {
                 }
 
                 override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                    prefUtil.setString("FREQUENCY_PANALTY",charSequence.toString())
+                    prefUtil.setString("FREQUENCY_PENALTY",charSequence.toString())
                 }
 
                 override fun afterTextChanged(editable: Editable) {

@@ -1,6 +1,8 @@
 package com.example.gptalk.di
 
 import com.example.domain.repository.Repository
+import com.example.domain.usecase.LocalGetChattingUseCase
+import com.example.domain.usecase.LocalSetChattingUseCase
 import com.example.domain.usecase.RequestGetAnswerUseCase
 import dagger.Module
 import dagger.Provides
@@ -13,8 +15,18 @@ import javax.inject.Singleton
 object UseCaseModule {
     @Provides
     @Singleton
-    fun provideRequest(
+    fun provideRequestGetAnswerUseCase(
         repository: Repository
     ) = RequestGetAnswerUseCase(repository)
+    @Provides
+    @Singleton
+    fun provideLocalSetChattingUseCase(
+        repository: Repository
+    ) = LocalSetChattingUseCase(repository)
+    @Provides
+    @Singleton
+    fun provideLocalGetChattingUseCase(
+        repository: Repository
+    ) = LocalGetChattingUseCase(repository)
 
 }

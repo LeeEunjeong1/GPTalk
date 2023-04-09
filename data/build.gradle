@@ -56,4 +56,11 @@ dependencies {
 
     implementation(DaggerHilt.DAGGER_HILT)
     kapt(DaggerHilt.DAGGER_HILT_COMPILER)
+
+    // ROOM
+    implementation (Room.ROOM_RUNTIME)
+    implementation (Room.ROOM_RXJAVA)
+    testImplementation (Room.ROOM_TEST)
+    kapt (Room.ROOM_COMPILER)
+    implementation (Room.ROOM_KTX)
 }

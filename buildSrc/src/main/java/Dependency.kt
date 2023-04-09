@@ -1,7 +1,9 @@
 import Versions.NAV_VERSION
+import Versions.ROOM_VERSION
 
 object Versions {
     const val NAV_VERSION = "2.5.3"
+    const val ROOM_VERSION = "2.5.0"
 
 }
 object KTX {
@@ -45,4 +47,12 @@ object Coroutines {
 
 object Glide{
     const val GLIDE = "com.github.bumptech.glide:glide:4.11.0"
+}
+
+object Room{
+    const val ROOM_RUNTIME = "androidx.room:room-runtime:$ROOM_VERSION"
+    const val ROOM_RXJAVA =  "androidx.room:room-rxjava2:$ROOM_VERSION"
+    const val ROOM_TEST =  "androidx.room:room-testing:$ROOM_VERSION"
+    const val ROOM_COMPILER =  "androidx.room:room-compiler:$ROOM_VERSION"
+    const val ROOM_KTX =  "androidx.room:room-ktx:$ROOM_VERSION"
 }

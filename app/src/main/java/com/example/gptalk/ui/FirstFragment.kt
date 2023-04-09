@@ -64,6 +64,7 @@ class FirstFragment : Fragment() {
         with(binding) {
             btnSubmit.setOnClickListener {
                 loadSubmit()
+                edtMessage.setText("")
             }
             edtMessage.setOnEditorActionListener{ textView, action, event ->
                 var handled = false

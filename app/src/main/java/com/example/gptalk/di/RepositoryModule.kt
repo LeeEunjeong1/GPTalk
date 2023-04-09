@@ -1,5 +1,6 @@
 package com.example.gptalk.di
 
+import com.example.data.repository.LocalDataSource
 import com.example.data.repository.RemoteDataSource
 import com.example.data.repository.RepositoryImpl
 import com.example.domain.repository.Repository
@@ -16,6 +17,7 @@ object RepositoryModule {
     @Singleton
     fun provideRepository(
         remoteDataSource: RemoteDataSource,
+        localDataSource: LocalDataSource
     ): Repository =
-        RepositoryImpl(remoteDataSource)
+        RepositoryImpl(remoteDataSource,localDataSource)
 }
