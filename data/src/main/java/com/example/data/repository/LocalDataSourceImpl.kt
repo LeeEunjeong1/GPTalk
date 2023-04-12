@@ -13,4 +13,8 @@ class LocalDataSourceImpl @Inject constructor(private val chattingDao: ChattingD
 
     override fun selectAllChatting(): List<ChattingEntity> = chattingDao.selectAllChatting()
 
+    override fun deleteAllChatting() {
+        chattingDao.deleteAllChatting()
+    }
+
 }

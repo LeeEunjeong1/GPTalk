@@ -6,4 +6,5 @@ import com.example.domain.model.Chatting
 interface LocalDataSource {
     fun insertChatting(chatting: Chatting)
     fun selectAllChatting(): List<ChattingEntity>
+    fun deleteAllChatting()
 }

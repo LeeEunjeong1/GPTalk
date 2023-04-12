@@ -14,6 +14,7 @@ class RepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ): Repository {
+    // local
     override fun setChatting(remoteErrorEmitter: RemoteErrorEmitter, chatting:Chatting): Boolean {
         localDataSource.insertChatting(chatting)
         Util.logMessage("setChatting :: $chatting")
@@ -23,6 +24,11 @@ class RepositoryImpl @Inject constructor(
         val selectChatting = localDataSource.selectAllChatting()
         return selectChatting.let{Mapper.mapperToChatting(it)}
     }
+    override fun resetChatting(remoteErrorEmitter: RemoteErrorEmitter):Boolean{
+        localDataSource.deleteAllChatting()
+        return true
+    }
+    // remote
     override suspend fun getAnswer(
         remoteErrorEmitter: RemoteErrorEmitter,
         getAnswerRequest: GetAnswerRequest

@@ -6,27 +6,30 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.data.utils.PrefUtil
-import com.example.gptalk.databinding.FragmentSecondBinding
+import com.example.gptalk.databinding.FragmentSettingBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SecondFragment : Fragment() {
+class SettingFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
+    private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<SecondViewModel>()
+    private val viewModel by viewModels<SettingViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingBinding.inflate(inflater, container, false)
 
         initListener()
+        initObserve()
+
         return binding.root
 
 
@@ -61,6 +64,24 @@ class SecondFragment : Fragment() {
                 override fun afterTextChanged(editable: Editable) {
                 }
             })
+            btnReset.setOnClickListener {
+                viewModel.chatReset()
+            }
+        }
+    }
+
+    private fun initObserve(){
+        with(viewModel){
+            // 초기화 완료
+            chatResetResult.observe(viewLifecycleOwner){
+                if(it){
+                    Toast.makeText(context, "채팅이 초기화되었습니다..", Toast.LENGTH_SHORT).show()
+                }
+            }
+            // 에러
+            mutableErrorType.observe(viewLifecycleOwner){
+                Toast.makeText(context, "$it 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

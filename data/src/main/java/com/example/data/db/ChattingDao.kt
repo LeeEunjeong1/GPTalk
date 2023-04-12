@@ -15,4 +15,7 @@ interface ChattingDao {
     @Query("SELECT * FROM chatting")
     fun selectAllChatting(): List<ChattingEntity>
 
+    @Query("DELETE FROM chatting")
+    fun deleteAllChatting()
+
 }

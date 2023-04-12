@@ -10,7 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.domain.utils.Util
 import com.example.gptalk.R
 import com.example.gptalk.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         return when (item.itemId) {
             R.id.action_settings -> {
-                if (getForegroundFragment() is FirstFragment) {
+                if (getForegroundFragment() is ChattingFragment) {
                     navController.navigate(
                         R.id.action_FirstFragment_to_SecondFragment
                     )

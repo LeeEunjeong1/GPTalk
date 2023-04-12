@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.utils.Util
 import com.example.gptalk.databinding.ItemChatBinding
 import com.example.gptalk.model.Chatting
 
@@ -52,9 +53,11 @@ class ChatListAdapter :
     }
 
     fun clearChats() {
+        Util.logMessage("clearChats1 :: $chatList")
         val size = chatList.size
         chatList.clear()
         notifyItemRangeRemoved(0, size)
+        Util.logMessage("clearChats2 :: $chatList")
     }
 
 

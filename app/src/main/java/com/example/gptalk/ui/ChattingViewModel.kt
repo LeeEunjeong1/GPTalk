@@ -11,6 +11,7 @@ import com.example.domain.utils.ErrorType
 import com.example.domain.utils.RemoteErrorEmitter
 import com.example.domain.utils.Util
 import com.example.gptalk.model.Chatting
+import com.example.gptalk.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,32 +19,27 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FirstViewModel @Inject constructor(
+class ChattingViewModel @Inject constructor(
     private val requestGetAnswerUseCase: RequestGetAnswerUseCase,
     private val localSetChattingUseCase: LocalSetChattingUseCase,
     private val localGetChattingUseCase: LocalGetChattingUseCase,
     private val prefUtil: PrefUtil
 ) : ViewModel(), RemoteErrorEmitter {
     var chatList = MutableLiveData<ArrayList<Chatting>>()
+    private val mutableErrorMessage = SingleLiveEvent<String>()
+    val mutableErrorType = SingleLiveEvent<ErrorType>()
 
     override fun onError(errorType: ErrorType) {
         Util.logMessage("onError :: $errorType")
+        mutableErrorType.postValue(errorType)
     }
 
     override fun onError(msg: String) {
         Util.logMessage("onError :: $msg")
+        mutableErrorMessage.postValue(msg)
     }
     init{
-        // 로컬 채팅 값 불러 오기
-        CoroutineScope(Dispatchers.IO).launch{
-            val res = localGetChattingUseCase.excute(this@FirstViewModel)
-            Util.logMessage("res_local :: $res")
-            val temp = arrayListOf<Chatting>()
-            res.forEach{
-                temp.add(Chatting(it.mode,it.text))
-            }
-            chatList.postValue(temp)
-        }
+        localGetChatting()
     }
 
     // 질문 제출 - gpt api
@@ -63,7 +59,7 @@ class FirstViewModel @Inject constructor(
             localSetChatting("Q",text)
             // 질문 요청
             val response = requestGetAnswerUseCase.excute(
-                    this@FirstViewModel,
+                    this@ChattingViewModel,
                     GetAnswerRequest(
                         text,
                         temperature,
@@ -92,9 +88,22 @@ class FirstViewModel @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
 
             localSetChattingUseCase.excute(
-                this@FirstViewModel,
+                this@ChattingViewModel,
                 com.example.domain.model.Chatting(mode,text)
             )
+        }
+    }
+
+    // 로컬 채팅 값 불러 오기
+    fun localGetChatting(){
+        CoroutineScope(Dispatchers.IO).launch{
+            val res = localGetChattingUseCase.excute(this@ChattingViewModel)
+            Util.logMessage("res_local :: $res")
+            val temp = arrayListOf<Chatting>()
+            res.forEach{
+                temp.add(Chatting(it.mode,it.text))
+            }
+            chatList.postValue(temp)
         }
     }
 
