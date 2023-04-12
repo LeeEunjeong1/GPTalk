@@ -30,4 +30,12 @@ class PrefUtil @Inject constructor(
         editor.commit()
     }
 
+    fun getBoolean(key: String): Boolean {
+        return getPref().getBoolean(key, false)
+    }
+
+    fun setBoolean(key: String, value: Boolean) {
+        val editor: SharedPreferences.Editor = getEditor().putBoolean(key, value)
+        editor.commit()
+    }
 }

@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.domain.utils.Util
+import com.example.data.utils.PrefUtil
 import com.example.gptalk.databinding.FragmentChattingBinding
 import com.example.gptalk.model.Chatting
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +23,7 @@ class ChattingFragment : Fragment() {
 
     private val binding get() = _binding!!
     private val viewModel by viewModels<ChattingViewModel>()
-    private val adapter by lazy { ChatListAdapter() }
+    private val adapter by lazy { ChatListAdapter(PrefUtil(requireContext())) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -120,7 +120,15 @@ class ChattingFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+
         _binding = null
+    }
+
+    override fun onStop(){
+        super.onStop()
+        val prefUtil = PrefUtil(requireContext())
+        prefUtil.setBoolean("IS_SHARE",false)
+        prefUtil.setString("SHARE_ITEM","")
     }
 
 }
