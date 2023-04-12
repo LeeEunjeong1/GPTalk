@@ -7,6 +7,8 @@
     <string name="second_fragment_label">Setting</string>
 
     <string name="todo">TODO</string>
+    <string name="text_temperature">Temperature (0.1 ~ 1.0)</string>
+    <string name="text_frequency_panalty">Frequency Panalty (–2.0 ~ 2.0)</string>
     <string name="temperature">Temperature</string>
     <string name="frequency_panalty">Frequency Panalty</string>
     <string name="chat_reset">Chat Reset</string>

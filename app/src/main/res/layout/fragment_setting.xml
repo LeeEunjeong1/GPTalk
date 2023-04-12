@@ -7,37 +7,60 @@
     android:padding="30dp"
     tools:context=".ui.ChattingFragment">
 
-    <EditText
-        android:id="@+id/edit_temperature"
+    <LinearLayout
+        android:id="@+id/layout_temperature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:digits="0123456789."
-        android:ems="10"
-        android:maxLength="3"
-        android:padding="12dp"
-        android:hint="@string/temperature"
-        android:background="#ffffff"
         android:layout_marginTop="232dp"
+        android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/edit_frequency"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="@string/text_temperature"/>
+        <EditText
+            android:id="@+id/edit_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:digits="0123456789."
+            android:ems="10"
+            android:maxLength="3"
+            android:padding="12dp"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_frequency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:digits="0123456789-."
-        android:ems="10"
-        android:maxLength="4"
-        android:padding="12dp"
-        android:background="#ffffff"
-        android:hint="@string/frequency_panalty"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_temperature" />
+        app:layout_constraintTop_toBottomOf="@id/layout_temperature">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_frequency_panalty"/>
+        <EditText
+            android:id="@+id/edit_frequency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:digits="0123456789-."
+            android:ems="10"
+            android:maxLength="4"
+            android:padding="12dp"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
+
+
+
 
     <Button
         android:id="@+id/btn_reset"
