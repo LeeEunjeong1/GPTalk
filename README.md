@@ -22,4 +22,4 @@
  ![image](https://user-images.githubusercontent.com/38210019/231783216-447b2899-5f6e-4a03-9192-ce1a93a98577.png)
 
 ## 앱 다운로드
-https://github.com/LeeEunjeong1/GPTalk/blob/main/app/app-debug.apk.zip
+https://github.com/LeeEunjeong1/GPTalk/tree/main/app/release
