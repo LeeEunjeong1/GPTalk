@@ -1,6 +1,7 @@
 package com.example.gptalk.ui
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +9,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.data.utils.PrefUtil
 import com.example.domain.utils.Util
+import com.example.gptalk.R
 import com.example.gptalk.databinding.ItemChatBinding
 import com.example.gptalk.model.Chatting
 
 class ChatListAdapter(
-    val prefUtil: PrefUtil
+    private val prefUtil: PrefUtil
 ):
     RecyclerView.Adapter<ChatListAdapter.ProductViewHolder>() {
     private var chatList: MutableList<Chatting> = mutableListOf()
@@ -40,17 +42,25 @@ class ChatListAdapter(
 
         with(holder) {
             with(binding) {
+                // 채팅 text
+                txtChat.text = current.text
+                if(current.mode=="Q"){
+                    txtChat.gravity = Gravity.START
+                    viewLeft.visibility = View.GONE
+                    viewRight.visibility = View.VISIBLE
+                }else{
+                    txtChat.gravity = Gravity.END
+                    txtChat.setBackgroundResource(R.color.my_light_primary)
+                    viewLeft.visibility = View.VISIBLE
+                    viewRight.visibility = View.GONE
+                }
+                // 공유 하기 모드
                 if(prefUtil.getBoolean("IS_SHARE")){
                     checkChat.visibility = View.VISIBLE
                 }else{
                     checkChat.visibility = View.GONE
                 }
-                txtChat.text = current.text
-                if(current.mode=="Q"){ // 질문
-                    txtChat.gravity = Gravity.START
-                }else{ // 답변
-                    txtChat.gravity = Gravity.END
-                }
+                // 공유할 채팅 저장
                 checkChat.setOnClickListener {
                     val itemStr = if(current.mode=="Q"){"질문 : ${current.text}\n"}else{"답변 : ${current.text}\n"}
                     var shareItem = prefUtil.getString("SHARE_ITEM")
@@ -67,19 +77,25 @@ class ChatListAdapter(
         }
     }
 
+    // onBindViewHolder position 값 고정
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    // 채팅 리스트 값 추가
     fun setChats(chat: List<Chatting>) {
         clearChats()
         chatList.addAll(chat)
         notifyDataSetChanged()
     }
 
+    // 채팅 리스트 초기화
     fun clearChats() {
-        Util.logMessage("clearChats1 :: $chatList")
         val size = chatList.size
         chatList.clear()
         notifyItemRangeRemoved(0, size)
-        Util.logMessage("clearChats2 :: $chatList")
     }
-
-
 }

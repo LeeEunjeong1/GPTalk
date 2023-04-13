@@ -38,7 +38,9 @@ class ChattingViewModel @Inject constructor(
         Util.logMessage("onError :: $msg")
         mutableErrorMessage.postValue(msg)
     }
-    init{
+
+    init {
+        // 시작 -> 로컬 채팅 가져 오기
         localGetChatting()
     }
 
@@ -56,21 +58,21 @@ class ChattingViewModel @Inject constructor(
             } else {
                 prefUtil.getString("FREQUENCY_PENALTY").toDouble()
             }
-            localSetChatting("Q",text)
+            localSetChatting("Q", text)
             // 질문 요청
             val response = requestGetAnswerUseCase.excute(
-                    this@ChattingViewModel,
-                    GetAnswerRequest(
-                        text,
-                        temperature,
-                        frequencyPenalty
-                    )
+                this@ChattingViewModel,
+                GetAnswerRequest(
+                    text,
+                    temperature,
+                    frequencyPenalty
                 )
-                response?.let {
-                    Util.logMessage("it :: $it")
-                    localSetChatting("A",it.choices.text)
-                    setChatting(Chatting("A", it.choices.text.trim()))
-                }
+            )
+            response?.let {
+                Util.logMessage("it :: $it")
+                localSetChatting("A", it.choices.text.trim())
+                setChatting(Chatting("A", it.choices.text.trim()))
+            }
         }
     }
 
@@ -84,24 +86,23 @@ class ChattingViewModel @Inject constructor(
     }
 
     // 로컬 채팅 질문 저장
-    private fun localSetChatting(mode:String, text:String){
+    private fun localSetChatting(mode: String, text: String) {
         CoroutineScope(Dispatchers.IO).launch {
-
             localSetChattingUseCase.excute(
                 this@ChattingViewModel,
-                com.example.domain.model.Chatting(mode,text)
+                com.example.domain.model.Chatting(mode, text)
             )
         }
     }
 
     // 로컬 채팅 값 불러 오기
-    fun localGetChatting(){
-        CoroutineScope(Dispatchers.IO).launch{
+    fun localGetChatting() {
+        CoroutineScope(Dispatchers.IO).launch {
             val res = localGetChattingUseCase.excute(this@ChattingViewModel)
             Util.logMessage("res_local :: $res")
             val temp = arrayListOf<Chatting>()
-            res.forEach{
-                temp.add(Chatting(it.mode,it.text))
+            res.forEach {
+                temp.add(Chatting(it.mode, it.text))
             }
             chatList.postValue(temp)
         }
