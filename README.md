@@ -23,3 +23,7 @@
 
 ## 앱 다운로드
 https://github.com/LeeEunjeong1/GPTalk/tree/main/app/release
+
+
+## 회고
+https://dev-ej2.tistory.com/47
