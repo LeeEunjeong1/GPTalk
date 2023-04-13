@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         val prefUtil = PrefUtil(applicationContext)
 
         return when (item.itemId) {
-            R.id.action_share ->{
+            R.id.action_share ->{ // 공유 하기
                 // 화면 새로고침
                 finish()
                 overridePendingTransition(0, 0)
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                 prefUtil.setString("SHARE_ITEM","")
                 true
             }
-            R.id.action_settings -> {
+            R.id.action_settings -> { // 설정 이동
                 if (getForegroundFragment() is ChattingFragment) {
                     navController.navigate(
                         R.id.action_FirstFragment_to_SecondFragment
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    private val TAG = this.javaClass.simpleName
+    // 백버튼
     private val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             val prefUtil = PrefUtil(applicationContext)
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    // 현재 보고 있는 프래그먼트 가져 오기
     private fun getForegroundFragment(): Fragment? {
         val navHostFragment: Fragment? =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)

@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val prefUtil: PrefUtil,
     private val localResetChattingUseCase: LocalResetChattingUseCase
 ) : ViewModel(), RemoteErrorEmitter {
     private val mutableErrorMessage = SingleLiveEvent<String>()

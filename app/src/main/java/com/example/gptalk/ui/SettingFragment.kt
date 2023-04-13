@@ -36,40 +36,52 @@ class SettingFragment : Fragment() {
 
     }
 
-    private fun initListener(){
+    private fun initListener() {
 
-        with(binding){
+        with(binding) {
             val prefUtil = PrefUtil(requireContext())
             editTemperature.setText(prefUtil.getString("TEMPERATURE"))
             editFrequency.setText(prefUtil.getString("FREQUENCY_PENALTY"))
             editTemperature.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                override fun beforeTextChanged(
+                    charSequence: CharSequence,
+                    i: Int,
+                    i1: Int,
+                    i2: Int
+                ) {
                 }
 
                 override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
 
-                    prefUtil.setString("TEMPERATURE",charSequence.toString())
+                    prefUtil.setString("TEMPERATURE", charSequence.toString())
                 }
 
                 override fun afterTextChanged(editable: Editable) {
                 }
             })
             editFrequency.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                override fun beforeTextChanged(
+                    charSequence: CharSequence,
+                    i: Int,
+                    i1: Int,
+                    i2: Int
+                ) {
                 }
 
                 override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                    prefUtil.setString("FREQUENCY_PENALTY",charSequence.toString())
+                    prefUtil.setString("FREQUENCY_PENALTY", charSequence.toString())
                 }
 
                 override fun afterTextChanged(editable: Editable) {
                 }
             })
+            // 초기화 버튼 클
             btnReset.setOnClickListener {
                 viewModel.chatReset()
             }
+            // 공유 하기 버튼 클릭
             btnShare.setOnClickListener {
-                prefUtil.setBoolean("IS_SHARE",true)
+                prefUtil.setBoolean("IS_SHARE", true)
                 val navController = Navigation.findNavController(binding.root)
                 navController.navigateUp()
             }
